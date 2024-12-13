@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import moment from "moment";
 
 export default () => {
   const containerRef = useRef(null);
@@ -8,11 +9,11 @@ export default () => {
   const [selectedItem, setSelectedItem] = useState(null);
 
   const formatTimestamp = (timestamp) => {
-    return timestamp;
+    return moment(timestamp).format("dddd, MMMM Do YYYY, h:mm:ss a"); // "Sunday, February 14th 2010, 3:25:50 pm"
   };
 
   const downloadJSON = (jsonData) => {
-    const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
+    const timestamp = new Date().toISOString();
     const key = `pspdfkit-instant-json-${timestamp}`;
     localStorage.setItem(key, JSON.stringify(jsonData, null, 2));
     setJsonItems([...jsonItems, key]);
@@ -65,7 +66,7 @@ export default () => {
     <div className="flex min-h-screen">
       <aside className="w-1/4 bg-gray-200 p-4">
         <nav>
-          <h2 className="text-lg font-bold mb-2">Instant JSON Versions</h2>
+          <h2 className="text-lg font-bold mb-2 text-gray-600">Instant JSON Versions</h2>
           <ul className="space-y-4">
             {jsonItems.map((item) => (
               <li key={item}>
